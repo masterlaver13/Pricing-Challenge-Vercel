@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="stylesheet" href="mobilestyle.css">
+  <link rel="stylesheet" href="desktopstyle.css">
+  <link rel="stylesheet" href="rangeslider.css">
+  <link rel="stylesheet" href="toggle.css">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+  <title>Frontend Mentor | Interactive pricing component</title>
+
+  <script type="text/javascript">
+    function init() {
+      SliderChange(document.getElementById('slider').value);
+      orderChildren();
+    }
+
+    function orderChildren() {
+      var screenw = window.screen.width;
+      let childNode = document.getElementById('two').childNodes;
+
+      if (screenw >= 1440) {
+        if (childNode[11].className == "pricing") {
+          childNode[11].parentNode.insertBefore(childNode[11], childNode[4]);
+        }
+      }
+
+      if (screenw < 1440) {
+        if (childNode[4].className == "pricing") {
+          childNode[4].parentNode.insertBefore(childNode[4], childNode[12]);
+        }
+      }
+
+    }
+
+    function SliderChange(value) {
+      document.getElementById('selector').style.left = value + '%';
+      document.getElementById('progress').style.width = value + '%';
+
+      let yearly = document.getElementById('toggle').checked;
+      var pv;
+      var price;
+
+
+      switch (value) {
+        case "0":
+          pv = 10 + 'K';
+          price = 8;
+          break;
+        case "25":
+          pv = 50 + 'K';
+          price = 12;
+          break;
+        case "50":
+          pv = 100 + 'K';
+          price = 16;
+          break;
+        case "75":
+          pv = 500 + 'K';
+          price = 24;
+          break;
+        case "100":
+          pv = 1 + 'M';
+          price = 36;
+          break;
+        default:
+          break;
+      }
+
+      if (yearly) price -= (price / 100) * 25;
+      document.getElementById('pageviews').innerHTML = pv;
+      document.getElementById('price').innerHTML = '$' + price.toFixed(2);
+
+    }
+  </script>
+
+</head>
+
+<body onload="init()" onresize="init()">
+
+  <div class="wrapper">
+    <!-- FIRST PART -->
+    <div id="one">
+      <!-- Tiltle kind of thing, the "logo" -->
+      <h1 class="title">Simple, traffic-based pricing</h1>
+
+      <!-- Some information -->
+      <div style="position: absolute; left: 50%; transform: translateX(-50%);">
+        <span class="info">Sign-up for our 30-day trial.</span>
+        <span class="info">No credit card required.</span>
+      </div>
+    </div>
+
+    <!-- SECOND PART -->
+    <div id="two">
+      <!-- Pageviews, value of the slider -->
+      <strong class="pageviews">
+        <span id="pageviews"></span> PAGEVIEWS
+      </strong>
+
+      <!-- Slider -->
+      <div class="slider">
+        <input type="range" id="slider" min="0" max="100" value="50" step="25" oninput="SliderChange(this.value);">
+        <div id="selector">
+          <div id="selectbg"></div>
+        </div>
+        <div id="progress"></div>
+      </div>
+
+      <!-- Result of sliding component, the price -->
+      <div class="pricing">
+        <span id="price"></span>
+        <span>/ month</span>
+      </div>
+    </div>
+
+    <!-- THIRD PART -->
+    <div id="three">
+      <!-- Toggle and blilling -->
+      <div class="billings">
+        <p>Monthly Billing</p>
+        <input type="checkbox" id="toggle" oninput="SliderChange(document.getElementById('slider').value)"><label id="togglelabel" for="toggle"></label>
+
+        <p>Yearly Billing
+          <span style="color: hsl(15, 100%, 70%); background: hsl(14, 92%, 95%); font-size: 0.8em;">
+            <span id="minus">-</span>25% <span id="discount">discount</span>
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <!-- FOURTH PART -->
+    <div id="four">
+      <!-- Pros of hte offer -->
+      <div class="pros">
+        <ol>
+          <li>Unlimited websites</li>
+          <li>100% data ownership</li>
+          <li>Email reports</li>
+        </ol>
+      </div>
+
+      <!-- Button which provides to continuation of a trial -->
+      <button type="button" class="btn">Start my trial</button>
+    </div>
+  </div>
+
+
+</body>
+
+</html>
